@@ -10,7 +10,9 @@
 * 트위터 알고리즘 : https://github.com/twitter/the-algorithm
 * 스포티파이 API : https://developer.spotify.com/documentation/web-api
 
-----
+
+<br/>----<br/>
+
 
 ## 1. 트위터 알고리즘 분석 내용
 언어 : scala
@@ -18,6 +20,10 @@
 
 아래의 순서대로 동작함
 https://colab.research.google.com/drive/1MAuh9V2o-xiI9f1PVA_5CqRDQKFeXnt0?usp=sharing
+
+
+<br/>----<br/>
+
 
 ### 트위터 알고리즘 코드 특징 - 11/19
 점수제로 선택과 정렬
@@ -30,17 +36,25 @@ https://colab.research.google.com/drive/1MAuh9V2o-xiI9f1PVA_5CqRDQKFeXnt0?usp=sh
 
 관심사나 특정 태그별로 묶어놓은 그룹(일명 '커뮤니티')가 있음
 
+
+<br/>----<br/>
+
+
 ### 트위터 알고리즘 파이프라인 - 11/25
 1. 유저가 팔로잉한 계정과 팔로잉 안한 계정의 트윗들을 가져옴
-* 팔로잉 안한 계정은 유저와 유사한 다른 유저나 팔로잉한 계정이랑 관련이 있으면 가져온다.
+    * 팔로잉 안한 계정은 유저와 유사한 다른 유저나 팔로잉한 계정이랑 관련이 있으면 가져온다.
 
 2. 트위터가 만든 딥러닝에 넣어서 결과값을 추출함
-* 트위터가 만든 딥러닝에서 위의 점수를 매기는 과정이 있다.
+    * 트위터가 만든 딥러닝에서 위의 점수를 매기는 과정이 있다.
 
 3. 필터링을 함. (ex.차단한 계정, 유해&불건전한 트윗 등)
 
 4. 유저에게 데이터를 보냄
 (모든 과정이 몇 초 밖에 안됨)
+
+
+<br/>----<br/>
+
 
 ### 트위터 알고르즘에서 사용하는 추천 시스템 - 11/26
 하이브리드 필터링을 사용하는 것 같다.
@@ -64,12 +78,15 @@ https://velog.velcdn.com/images/ie8907/post/546dd0b0-4f8e-4d92-a0a5-30a0fb665ff5
 위의 있는 필터링에서 2개 이상을 같이 사용하는 추천 시스템
 서로의 장단점을 보완하기 위해서 만들어진 시스템
 
-----
+
+<br/>----<br/>
+
 
 ## 2. 스포티파이 API 분석 - 11/26
 사용할 API
-- main : player, playlists, search, users
-- sub : albums, artists, categories
+- *main* : player, playlists, search, users
+- *sub* : albums, artists, categories
+
 ※ markets은 default가 KO(Korea) -> 나라별로 지원해주는 API 정도가 다름
 
 ### 1. player
