@@ -11,7 +11,9 @@
 * 스포티파이 API : https://developer.spotify.com/documentation/web-api
 
 
-<br/>----<br/>
+<br/>
+----
+<br/>
 
 
 ## 1. 트위터 알고리즘 분석 내용
@@ -22,7 +24,9 @@
 https://colab.research.google.com/drive/1MAuh9V2o-xiI9f1PVA_5CqRDQKFeXnt0?usp=sharing
 
 
-<br/>----<br/>
+<br/>
+----
+<br/>
 
 
 ### 트위터 알고리즘 코드 특징 - 11/19
@@ -37,7 +41,9 @@ https://colab.research.google.com/drive/1MAuh9V2o-xiI9f1PVA_5CqRDQKFeXnt0?usp=sh
 관심사나 특정 태그별로 묶어놓은 그룹(일명 '커뮤니티')가 있음
 
 
-<br/>----<br/>
+<br/>
+----
+<br/>
 
 
 ### 트위터 알고리즘 파이프라인 - 11/25
@@ -53,7 +59,9 @@ https://colab.research.google.com/drive/1MAuh9V2o-xiI9f1PVA_5CqRDQKFeXnt0?usp=sh
 (모든 과정이 몇 초 밖에 안됨)
 
 
-<br/>----<br/>
+<br/>
+----
+<br/>
 
 
 ### 트위터 알고르즘에서 사용하는 추천 시스템 - 11/26
@@ -79,7 +87,9 @@ https://velog.velcdn.com/images/ie8907/post/546dd0b0-4f8e-4d92-a0a5-30a0fb665ff5
 서로의 장단점을 보완하기 위해서 만들어진 시스템
 
 
-<br/>----<br/>
+<br/>
+----
+<br/>
 
 
 ## 2. 스포티파이 API 분석 - 11/26
