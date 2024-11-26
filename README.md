@@ -19,7 +19,7 @@
 아래의 순서대로 동작함
 https://colab.research.google.com/drive/1MAuh9V2o-xiI9f1PVA_5CqRDQKFeXnt0?usp=sharing
 
-### 트위터 알고리즘 코드 특징
+### 트위터 알고리즘 코드 특징 - 11/19
 점수제로 선택과 정렬
 
 트윗에서 설정된 태그 중에서 유해 혹은 불건전한 것들은 점수 감점
@@ -30,7 +30,7 @@ https://colab.research.google.com/drive/1MAuh9V2o-xiI9f1PVA_5CqRDQKFeXnt0?usp=sh
 
 관심사나 특정 태그별로 묶어놓은 그룹(일명 '커뮤니티')가 있음
 
-### 트위터 알고리즘 파이프라인
+### 트위터 알고리즘 파이프라인 - 11/25
 1. 유저가 팔로잉한 계정과 팔로잉 안한 계정의 트윗들을 가져옴
 * 팔로잉 안한 계정은 유저와 유사한 다른 유저나 팔로잉한 계정이랑 관련이 있으면 가져온다.
 
@@ -44,4 +44,4 @@ https://colab.research.google.com/drive/1MAuh9V2o-xiI9f1PVA_5CqRDQKFeXnt0?usp=sh
 
 ----
 
-## 1. 스포티파이 API 분석
+## 1. 스포티파이 API 분석 - 11/26
