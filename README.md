@@ -21,7 +21,7 @@
 자바와 js, python을 섞은 느낌인 언어
 
 아래의 순서대로 동작함
-https://colab.research.google.com/drive/1MAuh9V2o-xiI9f1PVA_5CqRDQKFeXnt0?usp=sharing
+![Alt text](https://colab.research.google.com/drive/1MAuh9V2o-xiI9f1PVA_5CqRDQKFeXnt0?usp=sharing)
 
 
 <br/>
@@ -68,7 +68,7 @@ https://colab.research.google.com/drive/1MAuh9V2o-xiI9f1PVA_5CqRDQKFeXnt0?usp=sh
 하이브리드 필터링을 사용하는 것 같다.
 사용한 필터링들은 콘텐츠 기반, 협업 필터링의 기억 기반을 사용하는 것 같다.
 
-https://velog.velcdn.com/images/ie8907/post/546dd0b0-4f8e-4d92-a0a5-30a0fb665ff5/image.png
+![Alt text](https://velog.velcdn.com/images/ie8907/post/546dd0b0-4f8e-4d92-a0a5-30a0fb665ff5/image.png)
 
 #### 콘첸트 기반 필터링
 콘텐츠 자체의 특성과 사용자의 이전 행동 기록을 기반으로 사용자에게 추천함
