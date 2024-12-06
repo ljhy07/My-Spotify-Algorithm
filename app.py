@@ -18,6 +18,10 @@ def generate_random_string(length: int) -> str:
     """Generates a random string of the specified length."""
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
+@app.get("/")
+def main():
+    return "hello"
+
 @app.get("/login")
 async def Login():
     state = generate_random_string(16)
@@ -51,17 +55,18 @@ async def LoginCallback(request: Request):
     auth_url = "https://accounts.spotify.com/api/token"
     auth_headers = {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Basic " + base64.b64encode(f"{client_id}:{client_secret}".encode()).decode()
+        "Authorization": "Basic " + (base64.b64encode(f"{client_id}:{client_secret}".encode())).decode()
     }
     auth_data = {
         "code": code,
-        "redirect_uri": "http://localhost:8000",
+        "redirect_uri": "http://localhost:8000/login/callback",
         "grant_type": "authorization_code"
     }
 
     async with httpx.AsyncClient() as client:
         response = await client.post(auth_url, headers=auth_headers, data=auth_data)
         if response.status_code != 200:
+            print(f"Response: {response.status_code}, Body: {response.text}")
             raise HTTPException(status_code=response.status_code, detail="Failed to fetch token")
 
         token_data = response.json()
