@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Response, Request, HTTPException, Cookie, Header, Body
+from fastapi import FastAPI, Response, Request, HTTPException, Cookie, Body, Depends
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
@@ -12,7 +12,8 @@ from urllib.parse import urlencode
 
 import os
 from dotenv import load_dotenv
-# from .algorithm import recommend
+from models import SearchData
+from db import *
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 env = load_dotenv(os.path.join(BASE_DIR, ".env"))
@@ -38,17 +39,19 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/")
 def Main(request: Request):
+    init_db()
     return templates.TemplateResponse("index.html", {"request":request})
 
-@app.get("/search")
-def SearchForm(request: Request):
-    return templates.TemplateResponse("search.html", {"request":request})
+@app.get("/data")
+def Data(request: Request):
+    return templates.TemplateResponse("data.html", {"request":request})
 
 @app.post("/search")
-async def search(request: Request, search: str = Body(...)):
+async def search(request: Request, search: str = Body(...), session=Depends(get_session)):
     SPOTIFY_API_URL = "https://api.spotify.com/v1/search"
 
-    print(search)
+    search = json.loads(search)
+    print(search["search"])
     params = {
         "q": search,
         "type": "album,artist,playlist",
@@ -57,6 +60,10 @@ async def search(request: Request, search: str = Body(...)):
         "offset": 5
     }
 
+    search_data = SearchData(searchValue=search["search"])
+    session.add(search_data)
+    session.commit()
+    session.refresh(search_data)
     
     token = request.cookies.get("access_token")
     print(token)
@@ -69,7 +76,7 @@ async def search(request: Request, search: str = Body(...)):
         response = await client.get(SPOTIFY_API_URL, params=params, headers=headers)
         
         if response.status_code == 200:
-            return recommend((response.json()))
+            return recommend(response.json())
         else:
             raise HTTPException(status_code=response.status_code, detail=response.text)
 
@@ -189,6 +196,7 @@ def artist(request):
     dataList = []
 
     for item in request["items"]:
+        print(item)
         dataList.append({
             "id": item["id"],
             "name": item["name"],
@@ -205,6 +213,7 @@ def playlist(request):
     dataList = []
 
     for item in request["items"]:
+        print(item)
         dataList.append({
             "id": item["id"],
             "name": item["name"],
@@ -221,6 +230,7 @@ def album(request):
     dataList = []
 
     for item in request["items"]:
+        print(item)
         dataList.append({
             "id": item["id"],
             "name": item["name"],
@@ -240,12 +250,15 @@ def recommend(request):
     albums = None
 
     if request["artists"]["total"] > 0:
+        # print(request["artists"])
         artists = artist(request["artists"])
     
     if request["playlists"]["total"] > 0:
+        # print(request["playlists"])
         playlists = playlist(request["playlists"])
     
     if request["albums"]["total"] > 0:
+        # print(request["albums"])
         albums = album(request["albums"])
     
     return {"artists": artists, "albums":albums, "playlists": playlists}
