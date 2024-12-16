@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    <style>
+        /* 링크 밑줄 제거 */
+        a {
+            text-decoration: none;
+        }
+
+        .scroll-container {
+            width: 100%;  /* 컨테이너의 너비 설정 */
+            overflow-x: auto;  /* 가로 스크롤 활성화 */
+            white-space: nowrap;  /* 내용이 한 줄로 표시되도록 설정 */
+            border: 1px solid #ccc;  /* 구분선 추가 */
+        }
+
+        .scroll-item {
+            display: inline-block;  /* 인라인 블록으로 설정하여 가로로 배치 */
+            width: 200px;  /* 각 아이템의 너비 */
+            height: 150px;  /* 각 아이템의 높이 */
+            margin-right: 10px;  /* 아이템 사이의 간격 */
+            background-color: #f0f0f0;  /* 배경색 */
+            text-align: center;  /* 텍스트 중앙 정렬 */
+            line-height: 150px;  /* 텍스트 수직 중앙 정렬 */
+        }
+    </style>
+</head>
+<body>
+    <form id="myForm" method="POST">
+        <input type="string" name="search" value="{{search}}"/>
+        <input type="submit">
+    </form>
+    <h1>아티스트</h1>
+    <div id="artists" class="scroll-container" style="display: flex;"></div>
+    <h1>앨범</h1>
+    <div id="albums" class="scroll-container" style="display: flex;"></div>
+    <h1>플레이리스트</h1>
+    <div id="playlists" class="scroll-container" style="display: flex;"></div>
+    <script>
+        document.getElementById('myForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // 폼 제출을 막음
+
+            // FormData 객체를 사용하여 폼 데이터 수집
+            const formData = new FormData(event.target);
+            const searchQuery = formData.get('search');  // 'search' 입력값을 추출
+
+            // JSON 데이터로 변환
+            const bodyData = JSON.stringify({
+                search: searchQuery
+            });
+
+            // fetch를 사용하여 데이터 전송
+            const response = await fetch('http://localhost:8000/search', {
+                method: 'POST',
+                body: bodyData  // FormData를 JSON 형식으로 전송
+            });
+
+            const result = await response.json();
+            console.log(result);
+            let artistsData = result.artists;
+            let albumsData = result.albums;
+            let playlistsData = result.playlists;
+
+            const artistList = document.getElementById('artists');
+            artistsData.forEach(artist => {
+                // 각 아티스트의 정보를 담을 div 생성
+                const artistDiv = document.createElement('div');
+                artistDiv.style.border = '1px solid #ccc';
+                artistDiv.style.padding = '10px';
+                artistDiv.style.marginBottom = '10px';
+
+                // 아티스트 링크를 감싸는 a 태그 생성
+                const artistLink = document.createElement('a');
+                artistLink.href = artist.spotifyUrl;
+                artistLink.target = '_blank'; // 새로운 탭에서 열기
+                artistLink.style.display = 'block'; // a 태그가 div를 감싸도록 설정
+
+                // 아티스트 이름 추가
+                const nameElement = document.createElement('h3');
+                nameElement.textContent = artist.name;
+                artistLink.appendChild(nameElement);
+
+                // 아티스트 이미지 추가
+                const imgElement = document.createElement('img');
+                imgElement.src = artist.imgUrl;
+                imgElement.alt = `${artist.name} Image`;
+                imgElement.style.width = '200px';
+                artistLink.appendChild(imgElement);
+
+                // 아티스트 인기도 추가
+                const popularityElement = document.createElement('p');
+                popularityElement.textContent = `Popularity: ${artist.popularity}`;
+                artistLink.appendChild(popularityElement);
+
+                // 아티스트 팔로워 수 추가
+                const followersElement = document.createElement('p');
+                followersElement.textContent = `Followers: ${artist.followers}`;
+                artistLink.appendChild(followersElement);
+
+                // 아티스트 장르 추가
+                const genresElement = document.createElement('p');
+                genresElement.textContent = `Genres: ${artist.genres.join(', ')}`;
+                artistLink.appendChild(genresElement);
+
+                // artist-list div에 artistLink (a 태그 포함) 추가
+                artistDiv.appendChild(artistLink);
+                artistList.appendChild(artistDiv);
+            });
+
+            const albumList = document.getElementById('albums');
+            albumsData.forEach(album => {
+                // 앨범을 담을 div 생성
+                const albumDiv = document.createElement('div');
+                albumDiv.style.border = '1px solid #ccc';
+                albumDiv.style.padding = '10px';
+                albumDiv.style.marginBottom = '10px';
+                albumDiv.classList.add('album-link');
+
+                // 앨범 링크를 감싸는 a 태그 생성
+                const albumLink = document.createElement('a');
+                albumLink.href = album.spotifyUrl;
+                albumLink.target = '_blank'; // 새로운 탭에서 열기
+
+                // 앨범 이름 추가
+                const nameElement = document.createElement('h3');
+                nameElement.textContent = album.name;
+                albumLink.appendChild(nameElement);
+
+                // 앨범 이미지 추가
+                const imgElement = document.createElement('img');
+                imgElement.src = album.imgUrl;
+                imgElement.alt = `${album.name} Image`;
+                albumLink.appendChild(imgElement);
+
+                // 트랙 수 추가
+                const tracksElement = document.createElement('p');
+                tracksElement.textContent = `Tracks: ${album.tracks}`;
+                albumLink.appendChild(tracksElement);
+
+                // 출시일 추가
+                const releaseDateElement = document.createElement('p');
+                releaseDateElement.textContent = `Release Date: ${album.releaseDate}`;
+                albumLink.appendChild(releaseDateElement);
+
+                // 아티스트 이름 추가
+                const artistElement = document.createElement('p');
+                artistElement.textContent = `Artist: ${album.artist[0].name}`;
+                albumLink.appendChild(artistElement);
+
+                // 앨범 div에 앨범 링크 추가
+                albumDiv.appendChild(albumLink);
+                albumList.appendChild(albumDiv);
+            });
+
+            const playlistList = document.getElementById('playlists');
+            playlistsData.forEach(playlist => {
+                // 플레이리스트를 담을 div 생성
+                const playlistDiv = document.createElement('div');
+                playlistDiv.style.border = '1px solid #ccc';
+                playlistDiv.style.padding = '10px';
+                playlistDiv.style.marginBottom = '10px';
+                playlistDiv.classList.add('playlist-link');
+
+                // 플레이리스트 링크를 감싸는 a 태그 생성
+                const playlistLink = document.createElement('a');
+                playlistLink.href = playlist.spotifyUrl;
+                playlistLink.target = '_blank'; // 새로운 탭에서 열기
+
+                // 플레이리스트 이름 추가
+                const nameElement = document.createElement('h3');
+                nameElement.textContent = playlist.name;
+                playlistLink.appendChild(nameElement);
+
+                // 플레이리스트 이미지 추가
+                const imgElement = document.createElement('img');
+                imgElement.src = playlist.imgUrl;
+                imgElement.alt = `${playlist.name} Image`;
+                playlistLink.appendChild(imgElement);
+
+                // 트랙 수 추가
+                const tracksElement = document.createElement('p');
+                tracksElement.textContent = `Tracks: ${playlist.tracks}`;
+                playlistLink.appendChild(tracksElement);
+
+                // 공개 여부 추가
+                const visibilityElement = document.createElement('p');
+                visibilityElement.textContent = `Public: ${playlist.isPublic ? "Yes" : "No"}`;
+                playlistLink.appendChild(visibilityElement);
+
+                // 플레이리스트 소유자 추가
+                const ownerElement = document.createElement('p');
+                ownerElement.classList.add('owner');
+                ownerElement.textContent = `Owner: ${playlist.owner.display_name}`;
+                playlistLink.appendChild(ownerElement);
+
+                // 아티스트의 Spotify 링크 추가
+                const ownerLinkElement = document.createElement('a');
+                ownerLinkElement.href = playlist.owner.external_urls.spotify;
+                ownerLinkElement.target = '_blank';
+                ownerLinkElement.textContent = 'View on Spotify';
+                playlistLink.appendChild(ownerLinkElement);
+
+                // 플레이리스트 div에 앨범 링크 추가
+                playlistDiv.appendChild(playlistLink);
+                playlistList.appendChild(playlistDiv);
+            });
+        });
+    </script>
+</body>
+</html>
